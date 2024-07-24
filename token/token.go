@@ -1,0 +1,377 @@
+package token
+
+import "fmt"
+
+const (
+	kind_template                 = "[ KIND: %s ]"
+	kind_literal_template         = "[ KIND: %s | LITERAL %q ]"
+	kind_subkind_literal_template = "[ KIND: %s | SUBKIND: %s | LITERAL: %q ]"
+)
+
+type Token interface {
+	Kind() Kind
+	Subkind() Subkind
+	String() string
+	Literal() string
+}
+
+type Kind int
+
+const (
+	ILLEGAL Kind = iota // v2
+
+	END_OF_FILE // v2
+
+	// Symbols
+	AT_KEYWORD      // v2
+	SELECTOR        // v2
+	FUNCTION        // v2
+	PROPERTY        // v2
+	CUSTOM_PROPERTY // v2
+	VALUE           // v2
+	IDENTIFIER      // v2
+
+	OPERATOR // v2
+
+	IMPORTANT // v2
+
+	COMMA               // v2
+	COLON               // v2
+	SEMICOLON           // v2
+	OPEN_CURLY_BRACKET  // v2
+	CLOSE_CURLY_BRACKET // v2
+	OPEN_PARENTHESIS    // v2
+	CLOSE_PARENTHESIS   // v2
+)
+
+func (k Kind) String() string {
+	switch k {
+	case ILLEGAL:
+		return "ILLEGAL"
+
+	case END_OF_FILE:
+		return "END_OF_FILE"
+
+	case AT_KEYWORD:
+		return "AT_KEYWORD"
+	case SELECTOR:
+		return "SELECTOR"
+	case FUNCTION:
+		return "FUNCTION"
+	case PROPERTY:
+		return "PROPERTY"
+	case CUSTOM_PROPERTY:
+		return "CUSTOM_PROPERTY"
+	case VALUE:
+		return "VALUE"
+	case IDENTIFIER:
+		return "IDENTIFIER"
+
+	case IMPORTANT:
+		return "IMPORTANT"
+
+	case COMMA:
+		return "COMMA"
+	case COLON:
+		return "COLON"
+	case SEMICOLON:
+		return "SEMICOLON"
+	case OPEN_CURLY_BRACKET:
+		return "OPEN_CURLY_BRACKET"
+	case CLOSE_CURLY_BRACKET:
+		return "CLOSE_CURLY_BRACKET"
+	case OPEN_PARENTHESIS:
+		return "OPEN_PARENTHESIS"
+	case CLOSE_PARENTHESIS:
+		return "CLOSE_PARENTHESIS"
+
+	default:
+		return fmt.Sprintf("UNKNOWN <%d>", k)
+	}
+}
+
+type Subkind int
+
+const (
+	SUBKIND_NONE Subkind = iota
+
+	// Selectors
+	ELEMENT_SELECTOR
+	CLASS_SELECTOR
+	ID_SELECTOR
+	UNIVERSAL_SELECTOR
+	ATTRIBUTE_SELECTOR
+	PSEUDO_CLASS_SELECTOR
+	PSEUDO_ELEMENT_SELECTOR
+	COMBINATOR_SELECTOR
+	INHERIT_SELECTOR
+
+	// Operators
+	ASSIGNMENT_OPERATOR
+	MINUS_OPERATOR
+	PLUS_OPERATOR
+	TIMES_OPERATOR
+	DIVIDE_OPERATOR
+
+	// Properties
+	STANDARD_PROPERTY
+	MOZ_VENDOR_PROPERTY
+	WEBKIT_VENDOR_PROPERTY
+
+	// Values
+	KEYWORD_VALUE
+	QUOTED_STRING_VALUE
+	INTEGER_LITERAL_VALUE
+	FLOAT_LITERAL_VALUE
+	DIMENSION_VALUE
+	PERCENTAGE_VALUE
+	NAMED_COLOR_VALUE
+	HEXADECIMAL_VALUE
+	HSL_VALUE
+	HWB_VALUE
+	LAB_VALUE
+	LCH_VALUE
+	OKLAB_VALUE
+	OKLCH_VALUE
+	LIGHT_DARK_VALUE
+
+	// Css at-keywords
+	CHARSET_AT_KEYWORD
+	COLOR_PROFILE_AT_KEYWORD
+	CONTAINER_AT_KEYWORD
+	COUNTER_STYLE_AT_KEYWORD
+	DOCUMENT_AT_KEYWORD
+	FONT_FACE_AT_KEYWORD
+	FONT_FEATURE_VALUES_AT_KEYWORD
+	SWASH_AT_KEYWORD
+	ANNOTATION_AT_KEYWORD
+	ORNAMENTS_AT_KEYWORD
+	STYLISTIC_AT_KEYWORD
+	STYLESET_AT_KEYWORD
+	CHARACTER_VARIANT_AT_KEYWORD
+	FONT_PALETTE_FEATURES_AT_KEYWORD
+	IMPORT_AT_KEYWORD
+	KEYFRAMES_AT_KEYWORD
+	LAYER_AT_KEYWORD
+	MEDIA_AT_KEYWORD
+	NAMESPACE_AT_KEYWORD
+	PAGE_AT_KEYWORD
+	POSITION_TRY_AT_KEYWORD
+	PROPERTY_AT_KEYWORD
+	SCOPE_AT_KEYWORD
+	STARTING_STYLE_AT_KEYWORD
+	SUPPORTS_AT_KEYWORD
+	VIEW_TRANSITION_AT_KEYWORD
+
+	// Zcss at-keywords
+	FUNCTION_AT_KEYWORD
+	IF_AT_KEYWORD
+	ELSE_IF_AT_KEYWORD
+	ELSE_AT_KEYWORD
+	MIXIN_AT_KEYWORD
+
+	// Functions
+	ANCHOR_POSITIONING_FUNCTION
+	ANIMATION_FUNCTION
+	COLOR_FUNCTION
+	COUNTER_FUNCTION
+	EASING_FUNCTION
+	FILTER_FUNCTION
+	FONT_FUNCTION
+	GRID_FUNCTION
+	IMAGE_FUNCTION
+	MATH_FUNCTION
+	MATRIX_FUNCTION
+	PERSPECTIVE_FUNCTION
+	REFERENCE_FUNCTION
+	ROTATE_FUNCTION
+	SCALE_FUNCTION
+	SHAPE_FUNCTION
+	SKEW_FUNCTION
+	TRANSLATE_FUNCTION
+)
+
+func (s Subkind) String() string {
+	switch s {
+	case SUBKIND_NONE:
+		return "NONE"
+
+		// Selectors
+	case ELEMENT_SELECTOR:
+		return "ELEMENT"
+	case CLASS_SELECTOR:
+		return "CLASS"
+	case ID_SELECTOR:
+		return "ID"
+	case UNIVERSAL_SELECTOR:
+		return "UNIVERSAL"
+	case ATTRIBUTE_SELECTOR:
+		return "ATTRIBUTE"
+	case PSEUDO_CLASS_SELECTOR:
+		return "PSEDUO_CLASS"
+	case PSEUDO_ELEMENT_SELECTOR:
+		return "PSEDUO_ELEMENT"
+	case COMBINATOR_SELECTOR:
+		return "COMBINATOR"
+	case INHERIT_SELECTOR:
+		return "INHERIT"
+
+		// Operators
+	case ASSIGNMENT_OPERATOR:
+		return "ASSIGNMENT"
+	case MINUS_OPERATOR:
+		return "MINUS"
+	case PLUS_OPERATOR:
+		return "PLUS"
+	case TIMES_OPERATOR:
+		return "TIMES"
+	case DIVIDE_OPERATOR:
+		return "DIVIDE"
+
+		// Properties
+	case STANDARD_PROPERTY:
+		return "STANDARD"
+	case MOZ_VENDOR_PROPERTY:
+		return "MOZ_VENDOR"
+	case WEBKIT_VENDOR_PROPERTY:
+		return "WEBKIT_VENDOR"
+
+		// Values
+	case KEYWORD_VALUE:
+		return "KEYWORD"
+	case QUOTED_STRING_VALUE:
+		return "QUOTED_STRING"
+	case INTEGER_LITERAL_VALUE:
+		return "INTEGER_LITERAL"
+	case FLOAT_LITERAL_VALUE:
+		return "FLOAT_LITERAL"
+	case DIMENSION_VALUE:
+		return "DIMENSION"
+	case PERCENTAGE_VALUE:
+		return "PERCENTAGE"
+	case NAMED_COLOR_VALUE:
+		return "NAMED_COLOR"
+	case HEXADECIMAL_VALUE:
+		return "HEXADECIMAL"
+	case HSL_VALUE:
+		return "HSL"
+	case HWB_VALUE:
+		return "HWB"
+	case LAB_VALUE:
+		return "LAB"
+	case LCH_VALUE:
+		return "LCH"
+	case OKLAB_VALUE:
+		return "OKLAB"
+	case OKLCH_VALUE:
+		return "OKLCH"
+	case LIGHT_DARK_VALUE:
+		return "LIGHT_DARK"
+
+		// CSS at-keywords
+	case CHARSET_AT_KEYWORD:
+		return "CHARSET"
+	case COLOR_PROFILE_AT_KEYWORD:
+		return "COLOR_PROFILE"
+	case CONTAINER_AT_KEYWORD:
+		return "CONTAINER"
+	case COUNTER_STYLE_AT_KEYWORD:
+		return "COUNTER_STYLE"
+	case DOCUMENT_AT_KEYWORD:
+		return "DOCUMENT"
+	case FONT_FACE_AT_KEYWORD:
+		return "FONT_FACE"
+	case FONT_FEATURE_VALUES_AT_KEYWORD:
+		return "FONT_FEATURE_VALUES"
+	case SWASH_AT_KEYWORD:
+		return "SWASH_AT"
+	case ANNOTATION_AT_KEYWORD:
+		return "ANNOTATION"
+	case ORNAMENTS_AT_KEYWORD:
+		return "ORNAMENTS"
+	case STYLISTIC_AT_KEYWORD:
+		return "STYLISTIC"
+	case STYLESET_AT_KEYWORD:
+		return "STYLESET"
+	case CHARACTER_VARIANT_AT_KEYWORD:
+		return "CHARACTER_VARIANT"
+	case FONT_PALETTE_FEATURES_AT_KEYWORD:
+		return "FONT_PALETTE_FEATURES"
+	case IMPORT_AT_KEYWORD:
+		return "IMPORT"
+	case KEYFRAMES_AT_KEYWORD:
+		return "KEYFRAMES"
+	case LAYER_AT_KEYWORD:
+		return "LAYER"
+	case MEDIA_AT_KEYWORD:
+		return "MEDIA"
+	case NAMESPACE_AT_KEYWORD:
+		return "NAMESPACE"
+	case PAGE_AT_KEYWORD:
+		return "PAGE_AT"
+	case POSITION_TRY_AT_KEYWORD:
+		return "POSITION_TRY"
+	case PROPERTY_AT_KEYWORD:
+		return "PROPERTY"
+	case SCOPE_AT_KEYWORD:
+		return "SCOPE"
+	case STARTING_STYLE_AT_KEYWORD:
+		return "STARTING_STYLE"
+	case SUPPORTS_AT_KEYWORD:
+		return "SUPPORTS"
+	case VIEW_TRANSITION_AT_KEYWORD:
+		return "VIEW_TRANSITION"
+
+		// ZCSS at-keywords
+	case FUNCTION_AT_KEYWORD:
+		return "FUNCTION"
+	case IF_AT_KEYWORD:
+		return "IF"
+	case ELSE_IF_AT_KEYWORD:
+		return "ELSE_IF"
+	case ELSE_AT_KEYWORD:
+		return "ELSE"
+	case MIXIN_AT_KEYWORD:
+		return "MIXIN"
+
+		// Functions
+	case ANCHOR_POSITIONING_FUNCTION:
+		return "ANCHOR_POSITIONING"
+	case ANIMATION_FUNCTION:
+		return "ANIMATION"
+	case COLOR_FUNCTION:
+		return "COLOR"
+	case COUNTER_FUNCTION:
+		return "COUNTER"
+	case EASING_FUNCTION:
+		return "EASING"
+	case FILTER_FUNCTION:
+		return "FILTER"
+	case FONT_FUNCTION:
+		return "FONT"
+	case GRID_FUNCTION:
+		return "GRID"
+	case IMAGE_FUNCTION:
+		return "IMAGE"
+	case MATH_FUNCTION:
+		return "MATH"
+	case MATRIX_FUNCTION:
+		return "MATRIX"
+	case PERSPECTIVE_FUNCTION:
+		return "PERSPECTIVE"
+	case REFERENCE_FUNCTION:
+		return "REFERENCE"
+	case ROTATE_FUNCTION:
+		return "ROTATE"
+	case SCALE_FUNCTION:
+		return "SCALE"
+	case SHAPE_FUNCTION:
+		return "SHAPE"
+	case SKEW_FUNCTION:
+		return "SKEW"
+	case TRANSLATE_FUNCTION:
+		return "TRANSLATE"
+	default:
+		return fmt.Sprintf("UNKNOWN <%d>", s)
+	}
+}

@@ -1,0 +1,25 @@
+:root {
+  background: red;
+}
+
+html {
+  color-scheme: dark;
+  background: orange;
+
+  a {
+    text-decoration: underline;
+    margin: 0 0.5rem;
+  }
+
+  body {
+    background: green;
+
+    header {
+      color: orange;
+
+      &:hover {
+        color: blue;
+      }
+    }
+  }
+}
